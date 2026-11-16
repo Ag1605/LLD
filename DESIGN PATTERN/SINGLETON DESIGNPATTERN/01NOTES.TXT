@@ -1,0 +1,201 @@
+Singleton Design Pattern (LLD)
+The Singleton Design Pattern is a creational design pattern that ensures a class has only one object (instance) throughout the application and provides a global point of access to that object.
+
+In simple words:
+
+Imagine you have a printer in an office. Multiple employees can use the same printer, but you don't need to create a new printer for every employee.
+
+Similarly, Singleton ensures that only one object of a class exists.
+1. Why do we use Singleton?
+Suppose you are developing an application that has:
+- Database connection
+- Logger
+- Configuration manager
+- Cache manager
+You don't want to create multiple objects of these classes unnecessarily.
+
+Singleton ensures that everyone uses the same instance
+
+5. Real-world applications
+Application	Why Singleton?
+Logger	One centralized logging instance
+Database Manager	Reuse a shared connection manager
+Configuration Manager	Maintain one configuration source
+Cache Manager	Share cached data
+Printer Manager	Coordinate shared printing resources
+
+6. Advantages and Disadvantages
+Advantages
+- Controls object creation.
+- Avoids unnecessary object creation.
+- Provides a shared instance.
+- Centralized access to resources.
+Disadvantages
+- Can introduce global state.
+- Makes unit testing harder.
+- Can create thread-safety problems.
+- Can make code tightly coupled.
+
+eager loading and lazy loading
+Eager Loading vs Lazy Loading (LLD)
+Both are techniques used to control when objects or resources are created or loaded into memory.
+
+The main difference is:
+
+Eager Loading: Load or create the resource immediately, even if it might not be needed.
+
+Lazy Loading: Load or create the resource only when it is actually needed.
+
+Let's understand with Singleton Design Pattern in C++.
+
+1. Eager Loading
+In eager loading, the object is created as soon as the class or application initializes it.
+
+3. Visual Difference
+Eager Loading
+1. Application starts
+2. Object is created immediately
+3. User requests the object
+4. Existing object is returned
+
+Lazy Loading
+1. Application starts
+2. No object is created yet
+3. User requests the object
+4. Object is created for the first time
+5. Existing object is returned on future requests
+
+4. Difference Between Eager and Lazy Loading
+Feature	Eager Loading	Lazy Loading
+Object creation	Immediately	When required
+Memory usage	May use more	Can save memory
+Initial startup	Can be slower	Often faster
+First access	Usually faster	May be slower
+Implementation	Simple	Requires deferred initialization
+Best for	Always-needed objects	Sometimes-needed objects
+
+5. Real-World Examples
+Eager Loading:
+
+Imagine a banking application.
+
+When the application starts, it loads essential configuration settings immediately because they are always required.
+
+Lazy Loading:
+
+Imagine an e-commerce website.
+
+You open the homepage, but product reviews are not loaded immediately. They are fetched only when you open the reviews section.
+
+
+
+
+Thread Safety: A Critical Concern in Singleton Pattern (LLD)
+Before understanding thread safety, let's understand one basic concept: What is a thread?
+1. What is a Thread?
+A thread is a small unit of execution inside a program.
+
+Imagine your application is running two tasks simultaneously:
+- Thread 1 is accessing the database.
+- Thread 2 is accessing the database.
+Both threads are executing at the same time.
+
+Now imagine both threads try to create a Singleton object simultaneously.
+
+This is where the problem starts.
+2. What is Thread Safety in Singleton?
+Thread safety means ensuring that multiple threads can access a Singleton safely without accidentally creating multiple instances.
+
+Our main requirement is:
+
+Even if 100 threads request the Singleton object simultaneously, only ONE object should be created.
+4. How do we solve this problem?
+There are different ways to make Singleton thread-safe.
+Method 1: Using Static Local Variable (Recommended in C++11)
+This is the easiest and recommended approach for a basic C++ Singleton.
+
+
+
+#include <iostream>
+using namespace std;
+
+class Singleton {
+
+private:
+
+    // Private constructor
+    Singleton() {
+        cout << "Object Created" << endl;
+    }
+
+public:
+
+    static Singleton& getInstance() {
+
+        // Created only once
+        static Singleton instance;
+
+        return instance;
+    }
+};
+
+int main() {
+
+    Singleton& obj1 = Singleton::getInstance();
+
+    Singleton& obj2 = Singleton::getInstance();
+
+    cout << (&obj1 == &obj2) << endl;
+
+    return 0;
+}
+
+
+Method 2: Using Mutex
+A mutex is a synchronization mechanism that allows only one thread at a time to enter a protected section of code.
+
+Example:
+
+#include <iostream>
+#include <mutex>
+using namespace std;
+
+class Singleton {
+
+private:
+
+    static Singleton* instance;
+    static mutex mtx;
+
+    Singleton() {
+        cout << "Object Created" << endl;
+    }
+
+public:
+
+    static Singleton* getInstance() {
+
+        // Lock the mutex
+        lock_guard<mutex> lock(mtx);
+
+        if (instance == nullptr) {
+            instance = new Singleton();
+        }
+
+        return instance;
+    }
+};
+
+Singleton* Singleton::instance = nullptr;
+mutex Singleton::mtx;
+
+int main() {
+
+    Singleton* obj1 = Singleton::getInstance();
+
+    Singleton* obj2 = Singleton::getInstance();
+
+    cout << (obj1 == obj2) << endl;
+
+    return 0;
+}
