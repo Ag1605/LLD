@@ -1,0 +1,230 @@
+Factory Design Pattern – Complete Theory Notes (LLD)
+1. Definition
+The Factory Design Pattern is a Creational Design Pattern that provides an interface or method for creating objects without exposing the object creation logic to the client.
+
+In simple words:
+
+Instead of creating objects directly, we delegate the responsibility of object creation to a Factory.
+
+The Factory decides which object should be created based on the requirement.
+2. Why do we need Factory Design Pattern?
+Consider a payment application that supports UPI, Credit Card and PayPal.
+
+Without Factory Pattern, the client has to create objects directly using conditions such as if-else or switch.
+
+This creates several problems:
+1. Tight Coupling: Client code becomes dependent on concrete classes.
+2. Complex Code: Too many conditions make the code difficult to understand.
+3. Difficult Maintenance: Changes in object creation logic require modifications in client code.
+4. Code Duplication: Object creation logic may be repeated in multiple places.
+5. Poor Scalability: Adding new object types can make the existing code complicated.
+Solution: Factory Pattern separates object creation logic from the client code.
+3. Main Components of Factory Pattern
+There are three main components in a basic Factory implementation.
+Component	Meaning
+Product Interface	Defines common operations that all products must implement
+Concrete Products	Actual classes that implement the Product Interface
+Factory	Responsible for deciding and creating the required object
+
+1. Product Interface
+- Defines common behavior for all products.
+- Usually implemented using an abstract class or interface.
+- Provides a common type for different objects.
+2. Concrete Products
+- Actual classes that implement the Product Interface.
+- Each class provides its own implementation.
+- Examples: UPI, Credit Card, PayPal.
+3. Factory
+- Responsible for object creation.
+- Contains the logic to decide which object should be created.
+- Returns the created object to the client.
+4. Working of Factory Pattern
+The working process follows these steps:
+1. Client requests a particular type of object.
+2. Factory receives the request.
+3. Factory checks the requested object type.
+4. Factory creates the required concrete object.
+5. Factory returns the object to the client.
+6. Client uses the returned object without worrying about its creation.
+Flow:
+Client
+
+Requests an object
+
+Factory
+
+Decides which object to create
+
+Concrete Product
+
+Object is created and returned
+
+Client uses the object
+
+
+5. Types of Factory Design Pattern
+Factory-related approaches are commonly divided into three categories.
+A. Simple Factory
+- A single Factory class is responsible for creating different types of objects.
+- It usually uses if-else or switch statements to decide which object to create.
+- Client provides the required object type.
+- Factory creates and returns the corresponding object.
+Example: Payment Factory creates UPI, Credit Card or PayPal objects.
+
+Use case: When object creation logic is centralized and relatively simple.
+
+Note: Simple Factory is a common programming idiom, not one of the original 23 Gang of Four design patterns.
+B. Factory Method Pattern
+- Defines a factory method in a common Creator class.
+- Subclasses override the factory method to decide which concrete object to create.
+- Object creation is delegated to subclasses.
+- Client works with the common Product abstraction rather than concrete implementations.
+Example:
+- UPI Factory creates UPI Payment.
+- Card Factory creates Card Payment.
+- PayPal Factory creates PayPal Payment.
+Use case: When subclasses should control which object gets created.
+C. Abstract Factory Pattern
+- Provides an interface for creating families of related objects.
+- Hides the concrete classes from the client.
+- Each concrete factory creates a related group of products.
+- Ensures that related products are used together.
+Example:
+
+A UI application supports Windows and Mac themes.
+- Windows Factory creates Windows Button and Windows Checkbox.
+- Mac Factory creates Mac Button and Mac Checkbox.
+Use case: When an application needs multiple families of related objects.
+6. Difference Between Simple Factory, Factory Method and Abstract Factory
+Feature	Simple Factory	Factory Method	Abstract Factory
+Purpose	Creates different objects	Delegates creation to subclasses	Creates related object families
+Structure	Usually one factory class	Creator hierarchy	Factory interface and concrete factories
+Inheritance	Not necessary	Important	Commonly used
+Object creation	Based on conditions	Based on subclass implementation	Based on selected factory
+Complexity	Low	Medium	High
+
+Easy way to remember:
+- Simple Factory = One factory creates different objects.
+- Factory Method = Different subclasses decide what to create.
+- Abstract Factory = Factory creates families of related objects.
+7. Advantages of Factory Pattern
+1. Loose Coupling: Client does not depend directly on concrete classes.
+2. Centralized Object Creation: Creation logic remains in one place.
+3. Easy Maintenance: Object creation logic can be modified separately.
+4. Code Reusability: Common creation logic can be reused.
+5. Better Organization: Separates object creation from business logic.
+6. Polymorphism: Different objects can be handled through a common interface.
+7. Extensibility: Factory Method and Abstract Factory can make adding new product types easier.
+8. Disadvantages of Factory Pattern
+1. More Classes: Introduces additional Factory and Product classes.
+2. Increased Complexity: Can make simple applications unnecessarily complicated.
+3. Maintenance Overhead: Simple Factory may require modification whenever a new object type is added.
+4. Overengineering: Not necessary when object creation is straightforward.
+5. Additional Abstraction: Developers need to understand the extra layers of classes.
+9. Real-World Applications
+Application	Factory creates
+Payment System	UPI, Credit Card, PayPal
+Notification System	Email, SMS, Push Notification
+Vehicle Booking	Car, Bike, Truck
+Document Editor	PDF, Word, Excel
+Database Application	MySQL, PostgreSQL connections
+UI Application	Windows and Mac components
+Logistics System	Different transport objects
+
+10. Factory Pattern and SOLID Principles
+Factory Pattern is commonly associated with these SOLID principles.
+
+1. Single Responsibility Principle (SRP)
+- A class should have one main responsibility.
+- Factory handles object creation separately from business logic.
+2. Open/Closed Principle (OCP)
+- Software should be open for extension but closed for modification.
+- Factory Method and Abstract Factory can allow new product types through new implementations without changing existing client code.
+- Simple Factory does not automatically satisfy OCP because its conditions may need modification.
+3. Dependency Inversion Principle (DIP)
+- High-level modules should depend on abstractions rather than concrete classes.
+- Client depends on a common Product interface instead of specific product implementations.
+11. Factory vs Singleton Pattern
+Feature	Factory	Singleton
+Category	Creational	Creational
+Main purpose	Object creation	Ensure only one instance
+Focus	Which object to create	How many instances exist
+Object count	Can create multiple objects	One instance
+Example	Payment Factory	Logger
+Constructor	No mandatory restriction	Commonly private
+
+Important: Factory and Singleton solve different problems. A Factory class itself can also be implemented as a Singleton.
+12. When to Use Factory Pattern?
+Use Factory Pattern when:
+- Multiple types of objects need to be created.
+- Object creation logic is complex.
+- Client should not know concrete class details.
+- You want centralized object creation.
+- New object types may be introduced in the future.
+- You want to reduce tight coupling between client and concrete classes.
+When not to use it:
+- Object creation is simple.
+- Only one concrete object type exists.
+- There is no need to separate creation logic.
+- Factory would introduce unnecessary complexity.
+13. Important Interview Questions
+Basic Level
+1. What is Factory Design Pattern?
+2. Why is Factory Pattern used?
+3. Which category does Factory Pattern belong to?
+4. What problem does Factory Pattern solve?
+5. What are the main components of Factory Pattern?
+6. What is a Product Interface?
+7. What are Concrete Products?
+Intermediate Level
+8. What is Simple Factory?
+9. What is Factory Method Pattern?
+10. What is Abstract Factory Pattern?
+11. Difference between Factory Method and Abstract Factory?
+12. How does Factory achieve loose coupling?
+13. How does Factory support polymorphism?
+14. What are the advantages and disadvantages of Factory?
+
+Advanced Level
+15. How is Factory related to SOLID principles?
+16. Can Factory be implemented using Singleton?
+17. How would you add a new product type?
+18. When should Factory Pattern be avoided?
+19. What is the difference between Simple Factory and Factory Method?
+20. Give a real-world example of Abstract Factory.
+
+14. One-page quick revision
+Factory Design Pattern
+Creational Design Pattern
+Definition: Separates object creation logic from client code.
+
+Main purpose:
+- Centralized object creation
+- Loose coupling
+- Better maintainability
+Components:
+1. Product Interface
+2. Concrete Products
+3. Factory
+Types:
+1. Simple Factory
+2. Factory Method
+3. Abstract Factory
+Advantages:
+- Loose coupling
+- Code reusability
+- Centralized creation
+- Better organization
+- Easier extensibility
+Disadvantages:
+- More classes
+- Increased complexity
+- Maintenance overhead
+- Possible overengineering
+SOLID connections: SRP, OCP, DIP.
+
+Examples: Payment, Notification, Vehicle, Database and UI systems.
+
+Interview definition: Factory Pattern provides a way to create objects without exposing the concrete object creation logic to the client.
+
+Most important thing to remember: Factory Pattern is about separating what object the client needs from how that object is created.
