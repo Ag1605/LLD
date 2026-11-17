@@ -1,0 +1,331 @@
+Prototype Design Pattern – Complete Theory (LLD / System Design)
+The Prototype Design Pattern is a Creational Design Pattern used to create new objects by copying or cloning existing objects instead of creating them from scratch.
+
+Let's understand it in simple language, with real-world examples, theory, advantages, disadvantages, and interview questions.
+1. What is Prototype Design Pattern?
+Prototype Pattern allows us to create a new object by copying an existing object, which is called a Prototype.
+
+In simple language:
+
+Instead of creating a completely new object and initializing all its properties again, we copy an already existing object and modify the properties if required.
+
+For example, imagine you are developing a game.
+
+You have an enemy character with the following properties:
+- Health = 100
+- Speed = 20
+- Damage = 50
+- Weapon = Sword
+Now imagine your game needs 100 enemies with the same configuration.
+
+Without Prototype Pattern, you may create and initialize every enemy separately.
+
+With Prototype Pattern, you create one enemy and clone it whenever you need another enemy.
+
+This saves repeated initialization work.
+2. Real-world example
+Imagine a game containing multiple enemy characters.
+
+You have already created one enemy:
+
+Original Enemy (Prototype)
+- Health: 100
+- Speed: 20
+- Damage: 50
+- Weapon: Sword
+Now you want to create multiple enemies with the same properties.
+
+Instead of configuring each enemy again:
+1. Create the original enemy.
+2. Clone the original enemy.
+3. Modify the cloned enemy if needed.
+4. Use the new enemy in the game.
+Original
+
+Clone 1
+
+Clone 2
+
+All three characters can have the same initial configuration but remain separate objects.
+3. Why do we need Prototype Pattern?
+Let's understand the problems it solves.
+Problem 1: Repeated object creation
+Suppose we have a complex object:
+Enemy enemy1;
+
+enemy1.health = 100;
+enemy1.speed = 20;
+enemy1.damage = 50;
+enemy1.weapon = "Sword";
+
+Now we need another enemy.
+
+We might repeat everything:
+Enemy enemy2;
+
+enemy2.health = 100;
+enemy2.speed = 20;
+enemy2.damage = 50;
+enemy2.weapon = "Sword";
+
+If we need 100 enemies, we repeatedly initialize the same properties.
+
+This creates unnecessary work.
+Problem 2: Expensive object initialization
+Some objects require expensive initialization, such as:
+- Loading configuration.
+- Loading large data.
+- Reading files.
+- Preparing complex resources.
+- Performing database-related initialization.
+Creating such objects from scratch repeatedly can be inefficient.
+
+Prototype Pattern allows us to reuse an existing object's configuration through cloning.
+Problem 3: Complex object configuration
+Sometimes an object has many properties and dependencies.
+
+Recreating the same configuration again and again makes code difficult to maintain.
+
+Solution: Create one configured object and use it as a prototype for creating copies.
+4. Main components of Prototype Pattern
+Prototype Pattern generally has three main components.
+1. Prototype Interface
+Prototype defines a common interface for cloning objects.
+
+It generally contains a method called clone().
+
+This method returns a copy of the current object.
+
+For example:
+virtual Enemy* clone() const = 0;
+
+2. Concrete Prototype
+Concrete Prototype implements the cloning operation.
+
+It contains the actual properties and behavior of the object.
+
+Examples:
+- WarriorEnemy
+- ZombieEnemy
+- RobotEnemy
+Each Concrete Prototype knows how to clone itself.
+3. Client
+Client requests a copy of an existing object.
+
+It doesn't need to know the internal process of cloning.
+
+It simply calls the clone() method.
+5. Working of Prototype Pattern
+The general workflow is:
+
+Step 1: Create Prototype
+
+Create and configure the original object
+
+Step 2: Clone
+
+Call the clone() method
+
+Step 3: Create Copy
+
+A new object is created with copied properties
+
+Step 4: Modify if required
+
+Change properties of the cloned object independently
+
+Example:
+
+Original Enemy:
+- Health = 100
+- Speed = 20
+Clone Enemy:
+- Health = 100
+- Speed = 20
+We can change the cloned enemy's health to 200 without changing the original, assuming the clone is independent.
+6. Shallow Copy vs Deep Copy
+This is one of the most important concepts in Prototype Pattern and C++ interviews.
+
+When we clone an object, we need to understand how its data is copied.
+A. Shallow Copy
+Shallow copy copies the object's member values directly.
+
+For ordinary values such as:
+- int
+- float
+- bool
+This is generally straightforward.
+
+But if the object contains pointers, the pointer address is copied, not the dynamically allocated object it points to.
+
+Example:
+
+Suppose an object contains:
+int* health;
+
+If we perform a shallow copy:
+- Both objects may point to the same memory location.
+- Changing the pointed-to value through one object affects what the other sees.
+- If both objects try to delete the same memory, it can cause a double-free error.
+B. Deep Copy
+Deep copy creates a separate copy of dynamically allocated resources.
+
+For example:
+- Original object has its own health memory.
+- Cloned object gets separate health memory.
+Changes in one object do not affect the other.
+
+Difference between Shallow Copy and Deep Copy
+Shallow Copy	Deep Copy
+Copies member values	Copies member values and owned dynamic resources
+Pointer addresses are copied	Separate resources are allocated
+Objects may share resources	Objects have independent resources
+Can cause ownership problems	Avoids shared ownership of copied resources
+Usually simpler	Requires more implementation
+
+
+Important: A deep copy is not automatically required for every Prototype. It depends on whether the object owns resources that need independent copies.
+7. Advantages of Prototype Pattern
+1. Reduces repeated initialization
+We can clone an existing configured object instead of initializing every property again.
+2. Useful for expensive objects
+It can reduce the cost of repeated construction when cloning is cheaper than initialization.
+3. Supports dynamic object creation
+Objects can be cloned at runtime based on existing prototypes.
+4. Reduces dependency on concrete classes
+Clients can clone objects through a common Prototype interface.
+5. Simplifies complex object creation
+We can maintain preconfigured objects and clone them whenever required.
+6. Supports different configurations
+We can create multiple prototypes and clone the one that matches our requirements.
+8. Disadvantages of Prototype Pattern
+1. Deep copying can be difficult
+Objects with pointers, nested objects, and resources require careful copying.
+2. Circular references
+Objects containing circular references can make cloning complicated.
+3. Resource management
+Files, network connections, locks, and other resources cannot always be copied safely.
+4. More implementation complexity
+We need to implement and maintain cloning functionality.
+5. Not always efficient
+If object construction is inexpensive, cloning may provide little or no benefit.
+9. When should we use Prototype Pattern?
+Use Prototype Pattern when:
+1. Creating objects from scratch is expensive.
+2. You need multiple objects with similar configurations.
+3. Objects have complex initialization.
+4. You want to avoid repeating initialization code.
+5. You need to create objects dynamically at runtime.
+6. You want to maintain predefined object templates.
+When should we avoid it?
+- When objects are simple to construct.
+- When objects contain complicated resource ownership.
+- When copying an object is more expensive than constructing a new one.
+- When cloning behavior is difficult to define correctly.
+10. Real-world applications
+1. Game Development
+
+Clone enemies, characters, weapons, and other game objects with predefined configurations.
+2. Document Editors
+
+Create new documents by copying existing templates with formatting and predefined content.
+3. Graphic Design Software
+
+Duplicate shapes, layers, and configured design elements.
+4. 3D Modelling
+
+Duplicate configured 3D objects and modify their positions or properties.
+5. Software Configuration
+
+Create instances from predefined configurations and templates.
+11. Prototype vs Factory vs Abstract Factory vs Builder
+This is an important comparison for LLD interviews.
+Pattern	Main idea	Example
+Factory Method	Create an object through a factory method	Create a Button
+Abstract Factory	Create a family of related objects	Windows Button + Checkbox
+Builder	Construct an object step by step	Configure a Computer
+Prototype	Create an object by cloning an existing object	Clone an Enemy
+
+
+Easy way to remember:
+- Factory = Create an object.
+- Abstract Factory = Create a family of objects.
+- Builder = Build an object step by step.
+- Prototype = Copy an existing object.
+12. Important interview questions and answers
+Q1. What is Prototype Design Pattern?
+
+Prototype is a Creational Design Pattern that creates new objects by cloning existing objects instead of constructing them from scratch.
+
+Q2. Why do we use Prototype Pattern?
+
+To reduce repeated initialization and create copies of complex or expensive objects.
+
+Q3. What is cloning?
+
+Cloning means creating a new object by copying the properties of an existing object.
+
+Q4. What is the role of the Prototype interface?
+
+It defines the common cloning operation that concrete prototypes implement.
+
+Q5. What is the difference between shallow copy and deep copy?
+
+Shallow copy copies member values, including pointer addresses. Deep copy creates independent copies of dynamically allocated resources.
+
+Q6. Does Prototype Pattern always require deep copy?
+
+No. Deep copy is needed when independently owned resources must be duplicated. For objects containing only simple values, ordinary copying may be sufficient.
+
+Q7. What is a Prototype Registry?
+
+It is a collection that stores predefined prototype objects so clients can retrieve and clone them when needed.
+
+Q8. What is the biggest advantage of Prototype Pattern?
+
+It avoids repeated and potentially expensive object initialization.
+
+Q9. What is the biggest disadvantage?
+
+Cloning complex objects, particularly those containing pointers and resource ownership, can be difficult.
+
+Q10. Is Prototype a Creational Design Pattern?
+
+Yes. It belongs to the Creational category because it deals with object creation.
+13. Quick revision notes
+Prototype Design Pattern
+(Creational Design Pattern)
+
+Definition: Creates new objects by cloning existing objects instead of constructing them from scratch.
+
+Main purpose:
+- Avoid repeated initialization.
+- Copy complex objects.
+- Reduce expensive construction.
+- Create objects dynamically.
+Main components:
+1. Prototype Interface – Defines clone().
+2. Concrete Prototype – Implements cloning.
+3. Client – Requests cloned objects.
+Important concepts:
+- Cloning
+- Shallow Copy
+- Deep Copy
+- Copy Constructor
+- Prototype Registry
+Advantages:
+- Reuses existing configurations.
+- Reduces repeated initialization.
+- Supports dynamic object creation.
+- Simplifies complex object creation.
+Disadvantages:
+- Deep copying can be difficult.
+- Resource management issues.
+- More implementation complexity.
+Real-world examples:
+- Game characters.
+- Document templates.
+- Graphic design elements.
+- 3D modelling.
+Remember: Prototype = Create a new object by copying an existing object.
+14. Test your understanding
