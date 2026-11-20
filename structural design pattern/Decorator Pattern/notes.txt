@@ -1,0 +1,162 @@
+Decorator Design Pattern – Complete LLD Theory
+1. What is Decorator Design Pattern?
+The Decorator Design Pattern is a Structural Design Pattern that allows us to add new functionality or responsibilities to an existing object dynamically without modifying its original class.
+
+In simple language:
+
+Decorator Pattern allows us to add extra features to an object by wrapping it inside another object.
+
+For example, imagine you order a coffee.
+
+Initially, you have a simple coffee. Now you want to add:
+- Milk
+- Sugar
+- Chocolate
+- Whipped Cream
+Instead of creating separate classes for every possible combination of coffee, we wrap the original coffee object with additional decorators.
+
+Each additional ingredient adds functionality or cost to the original coffee.
+
+This is the basic idea behind Decorator Pattern.
+
+
+2. Why do we need Decorator Pattern?
+Let's understand the problem first.
+
+Suppose you are developing a coffee shop application.
+
+You have different coffee types:
+- Simple Coffee
+- Milk Coffee
+- Sugar Coffee
+- Chocolate Coffee
+- Milk + Sugar Coffee
+- Milk + Chocolate Coffee
+- Milk + Sugar + Chocolate Coffee
+One approach is to create separate classes for every combination.
+
+For example:
+SimpleCoffee
+MilkCoffee
+SugarCoffee
+ChocolateCoffee
+MilkSugarCoffee
+MilkChocolateCoffee
+MilkSugarChocolateCoffee
+
+
+Imagine adding 10 different toppings.
+
+The number of combinations becomes very large.
+
+This creates several problems:
+1. Class Explosion: Too many classes are required for different combinations.
+2. Code Duplication: Similar functionality may be repeated in multiple classes.
+3. Poor Flexibility: Adding or removing features becomes difficult.
+4. Difficult Maintenance: Every new combination may require another class.
+5. Inheritance Complexity: Using inheritance for every combination can create a complicated class hierarchy.
+Solution: Decorator Pattern
+Instead of creating a separate class for every combination, we create independent decorators.
+
+For example:
+- Milk Decorator
+- Sugar Decorator
+- Chocolate Decorator
+We can combine them dynamically.
+1. Component Interface
+- Defines a common interface for the original object and decorators.
+- Declares the operations that both must implement.
+- Example: Coffee.
+2. Concrete Component
+- The original object that provides basic functionality.
+- It implements the Component Interface.
+- Example: SimpleCoffee.
+3. Base Decorator
+- Implements the same Component Interface.
+- Contains a reference to another Component object.
+- Passes requests to the wrapped object.
+- Acts as the base class for different decorators.
+4. Concrete Decorators
+- Add extra functionality to the original object.
+- Wrap another Component object.
+- Extend the behavior without modifying the original class.
+- Examples: MilkDecorator, SugarDecorator, ChocolateDecorator.
+
+4. How Decorator Pattern Works
+Let's take this example:
+
+You want to order:
+- Simple Coffee
+- Milk
+- Sugar
+- Chocolate
+The execution works like this:
+Simple Coffee
+
+Original object
+
+Milk Decorator
+
+Wraps Simple Coffee
+
+Sugar Decorator
+
+Wraps Milk + Coffee
+
+Chocolate Decorator
+
+Wraps Sugar + Milk + Coffee
+
+Final decorated coffee
+
+Execution steps:
+1. Create a Simple Coffee object.
+2. Wrap it inside Milk Decorator.
+3. Wrap the result inside Sugar Decorator.
+4. Wrap the result inside Chocolate Decorator.
+5. Each decorator adds its own functionality.
+6. The final object contains all the selected features.
+Important: Decorators can be combined in different orders.
+
+5. Important characteristics of Decorator Pattern
+1. Dynamic Behavior: Functionality can be added at runtime.
+2. Composition Over Inheritance: Uses object wrapping instead of creating subclasses for every combination.
+3. Same Interface: Decorators implement the same interface as the original component.
+4. Flexible Combination: Multiple decorators can be combined.
+5. Open/Closed Principle: New decorators can be introduced without modifying existing components.
+6. Single Responsibility: Each decorator adds one particular responsibility.
+
+6. Advantages of Decorator Pattern
+- Adds functionality without modifying existing classes.
+- Avoids creating too many subclasses.
+- Supports dynamic feature combinations.
+- Follows composition over inheritance.
+- Improves code flexibility.
+- Supports the Open/Closed Principle.
+- Individual features can be added or removed by changing the wrapping chain.
+7. Disadvantages of Decorator Pattern
+- Increases the number of classes.
+- Multiple wrapping layers can make code difficult to understand.
+- Debugging can become complicated.
+- Object creation becomes more complex.
+- The order of decorators can affect behavior.
+- Identifying the original concrete object can become difficult.
+
+8. Real-world applications
+Application	Decorator usage
+Coffee Shop	Add milk, sugar, chocolate
+Text Editor	Add bold, italic, underline
+Logging System	Add timestamps, formatting, encryption
+File Handling	Add buffering, compression, encryption
+Notification System	Add logging, encryption, formatting
+Web Development	Add middleware functionality
+UI Components	Add borders, shadows, scrollbars
+
+Example: File handling
+Suppose you have a basic file stream.
+
+You can wrap it with:
+- Buffering Decorator
+- Compression Decorator
+- Encryption Decorator
+Each decorator adds functionality while maintaining the common interface.
