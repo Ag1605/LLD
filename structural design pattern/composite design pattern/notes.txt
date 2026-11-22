@@ -1,0 +1,251 @@
+1. What is Composite Design Pattern?
+Composite is a structural design pattern.
+
+It allows us to treat:
+1. Individual objects.
+2. Groups of objects.
+In the same way.
+
+In simple words:
+
+Composite Pattern means treating a single object and a collection of objects using the same interface.
+
+Let's understand with a real-life example.
+2. Real-life example: File and Folder
+Think about your computer.
+Suppose you have this structure:
+Root
+│
+├── Documents
+│   ├── Resume.pdf
+│   └── Notes.txt
+│
+└── Photos
+    ├── Photo1.jpg
+    └── Photo2.jpg
+
+
+Here, we have two types of objects.
+
+1. File
+- Resume.pdf
+- Notes.txt
+- Photo1.jpg
+- Photo2.jpg
+A file is an individual object. It cannot contain other files or folders.
+
+2. Folder
+- Root
+- Documents
+- Photos
+A folder can contain files and even other folders.
+
+Now imagine you want to display the details of everything.
+
+Without Composite Pattern, you might write separate logic:
+if (object is File) {
+    // Display file
+}
+else if (object is Folder) {
+    // Display folder and its contents
+}
+
+
+As the application grows, managing these conditions becomes complicated.
+
+Composite Pattern solves this problem by giving both File and Folder a common interface.
+3. Why do we need Composite Pattern?
+Suppose you are building a file management application.
+
+You have:
+- Files
+- Folders
+- Subfolders
+- Nested folders
+You want to perform operations like:
+- Display details.
+- Calculate total size.
+- Delete objects.
+- Search files.
+The problem is that a file and folder behave differently internally.
+File	Folder
+Individual object	Collection of objects
+Cannot contain children	Can contain children
+Has its own size	Size can be calculated from children
+Leaf	Composite
+
+But you want the client to interact with both through the same interface.
+
+That's exactly what Composite Pattern provides.
+4. Main components of Composite Pattern
+There are four important components.
+1. Component
+This is the common interface.
+
+It defines the operations that both File and Folder must implement.
+
+Example:
+class FileSystem {
+public:
+    virtual void showDetails() = 0;
+};
+
+
+2. Leaf
+Leaf represents an individual object.
+
+It cannot contain other objects.
+
+Example: File.
+class File : public FileSystem {
+public:
+    void showDetails() override {
+        cout << "File";
+    }
+};
+
+
+3. Composite
+Composite represents a group of objects.
+
+It can contain both Leaf and other Composite objects.
+
+Example: Folder.
+class Folder : public FileSystem {
+    vector<FileSystem*> children;
+};
+
+
+4. Client
+Client uses the common interface.
+
+It doesn't need to know whether the object is a File or Folder.
+Understand this structure:
+              Component
+             (Interface)
+                  |
+          -----------------
+          |               |
+         Leaf          Composite
+         (File)         (Folder)
+                           |
+                       Children
+                           |
+                    Component objects
+
+
+Notice something important:
+
+Composite contains Component objects, not just Leaf objects.
+
+That's why a folder can contain another folder.
+6. How does Composite Pattern work?
+Let's understand the execution step by step.
+
+Suppose we create:
+Root
+  |
+  |--- Documents
+  |       |--- Resume.pdf
+  |       |--- Notes.txt
+  |
+  |--- Photos
+          |--- Photo.jpg
+
+
+Execution:
+
+Step 1: Create files.
+File resume("Resume.pdf");
+File notes("Notes.txt");
+
+
+Step 2: Create folders.
+Folder documents("Documents");
+Folder root("Root");
+
+
+Step 3: Add files inside Documents.
+documents.add(resume);
+documents.add(notes);
+
+
+Step 4: Add Documents inside Root.
+root.add(documents);
+
+
+Step 5: Call one common method.
+root.showDetails();
+
+
+The root folder displays its contents. When it finds another folder, it calls that folder's showDetails() method too.
+
+This continues recursively until all files have been displayed.
+7. Important concepts used
+Concept	Meaning
+Abstraction	Common interface for all objects
+Inheritance	File and Folder implement Component
+Polymorphism	Same method behaves differently
+Composition	Folder contains other components
+Recursion	Folder can contain nested folders
+
+8. Advantages
+1. Simple client code: Client treats files and folders uniformly.
+2. Easy to extend: We can add new component types.
+3. Tree structure: Naturally represents hierarchical data.
+4. Less conditional logic: No need to repeatedly check whether an object is a file or folder.
+9. Disadvantages
+1. The design can become complex for simple applications.
+2. It can be difficult to enforce restrictions on what a composite can contain.
+3. A common interface may not make sense for every operation on every component.
+10. Real-world applications
+Application	Leaf	Composite
+File system	File	Folder
+GUI	Button	Panel
+Organization	Employee	Department
+E-commerce	Product	Category
+Menu system	Menu item	Submenu
+
+11. Composite vs Other Design Patterns
+Pattern	Purpose
+Singleton	Only one instance of a class
+Factory	Creates objects without exposing creation logic
+Adapter	Makes incompatible interfaces compatible
+Decorator	Adds extra functionality to an object
+Facade	Simplifies a complex subsystem
+Composite	Treats individual objects and groups uniformly
+
+12. Interview questions
+Q1. What is Composite Pattern?
+
+A structural design pattern that allows us to treat individual objects and groups of objects uniformly.
+
+Q2. What is Leaf?
+
+An individual object that does not contain child objects.
+
+Q3. What is Composite?
+
+An object that contains multiple Component objects, including other Composite objects.
+
+Q4. Which data structure does Composite use?
+
+Tree data structure.
+
+Q5. Does Composite use recursion?
+
+Usually yes. Operations such as displaying nested folders or calculating total size are performed recursively.
+
+Q6. What is the biggest advantage?
+
+The client doesn't need separate logic for individual objects and groups.
+
+Quick revision – Remember this
+- Component = Common interface.
+- Leaf = Individual object.
+- Composite = Group of objects.
+- Client = Uses the common interface.
+- Structure = Tree.
+- Main concept = Treat one object and a group of objects uniformly.
+
+Next step: After understanding this theory, we can implement the complete Composite Pattern in C++ with main(), detailed comments, output and a dry run.
