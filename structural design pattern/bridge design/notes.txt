@@ -1,0 +1,227 @@
+1. What is Bridge Design Pattern?
+Bridge is a structural design pattern.
+
+It separates abstraction from implementation so that both can change independently.
+
+In simple words:
+
+Bridge Pattern connects two separate class hierarchies using composition instead of tightly coupling them through inheritance.
+
+Let's understand with a real-life example.
+2. Real-life example: Remote Control and Devices
+Imagine you have different electronic devices:
+- TV
+- Radio
+And different types of remote controls:
+- Basic Remote
+- Advanced Remote
+Without Bridge Pattern, you might create separate classes for every combination:
+BasicTVRemote
+AdvancedTVRemote
+
+BasicRadioRemote
+AdvancedRadioRemote
+
+
+Now imagine adding more devices and more remote types.
+
+The number of classes keeps increasing.
+
+This creates a problem called class explosion.
+
+Bridge Pattern solves this by separating two things:
+1. Remote Control (Abstraction)
+2. Device (Implementation)
+Now both can be developed independently.
+3. Why do we need Bridge Pattern?
+Suppose you have:
+
+Remote types:
+- Basic Remote
+- Advanced Remote
+Devices:
+- TV
+- Radio
+- Projector
+Without Bridge:
+BasicTVRemote
+AdvancedTVRemote
+
+BasicRadioRemote
+AdvancedRadioRemote
+
+BasicProjectorRemote
+AdvancedProjectorRemote
+
+
+Six combinations require six classes.
+
+With Bridge:
+          Remote (Abstraction)
+                  |
+          ------------------
+          |                |
+      BasicRemote     AdvancedRemote
+          |                |
+          ------ Device ---
+                  |
+          ------------------
+          |        |       |
+          TV      Radio  Projector
+
+
+We create separate hierarchies and connect them through composition.
+
+Now we can combine any remote with any supported device.
+4. Main components of Bridge Pattern
+There are four important components.
+1. Abstraction
+Defines the high-level interface.
+
+Example: Remote.
+class Remote {
+protected:
+    Device* device;
+
+public:
+    virtual void powerOn() = 0;
+};
+
+
+It holds a reference to the implementation.
+2. Refined Abstraction
+Extends the abstraction with more functionality.
+
+Example:
+- BasicRemote
+- AdvancedRemote
+class BasicRemote : public Remote {
+};
+
+
+3. Implementation
+Defines the interface for the actual implementation.
+
+Example: Device.
+class Device {
+public:
+    virtual void turnOn() = 0;
+};
+
+
+4. Concrete Implementation
+Provides the actual implementation.
+
+Example:
+- TV
+- Radio
+class TV : public Device {
+};
+
+Understand this structure:
+       Abstraction
+       (Remote)
+           |
+      Composition
+           |
+     Implementation
+        (Device)
+           |
+      -------------
+      |           |
+   TV Device   Radio Device
+
+
+Remote hierarchy:
+
+       Remote
+          |
+     -------------
+     |           |
+ BasicRemote  AdvancedRemote
+
+
+The important connection is:
+
+Remote contains a Device reference.
+
+This is the bridge between the two hierarchies.
+6. How does Bridge Pattern work?
+Let's take the remote control example.
+
+Suppose we want:
+- Basic Remote + TV
+- Advanced Remote + TV
+- Basic Remote + Radio
+- Advanced Remote + Radio
+Execution:
+
+Step 1: Create a Device interface.
+
+Step 2: Implement devices such as TV and Radio.
+
+Step 3: Create a Remote abstraction that contains a Device reference.
+
+Step 4: Create BasicRemote and AdvancedRemote.
+
+Step 5: Pass a device to a remote using its constructor.
+
+Now the remote can control any device that implements the Device interface.
+7. Advantages
+1. Reduces class explosion: Avoids creating a class for every combination.
+2. Loose coupling: Abstraction and implementation are independent.
+3. Easy extension: New devices and remote types can be added separately.
+4. Code reusability: Existing remote types can work with new devices.
+8. Disadvantages
+1. Initial design can be complicated.
+2. Introduces additional interfaces and classes.
+3. May be unnecessary for small applications.
+9. Real-world applications
+Application	Abstraction	Implementation
+Remote control	Remote	TV, Radio
+Payment system	Payment method	Payment gateway
+Graphics	Shape	Drawing API
+Operating system	Application	Windows, Linux
+Database	Data access layer	MySQL, PostgreSQL
+
+10. Bridge vs Adapter vs Decorator
+These patterns can look similar, but their purposes are different.
+Pattern	Main purpose
+Bridge	Separates abstraction and implementation
+Adapter	Makes incompatible interfaces compatible
+Decorator	Adds extra functionality
+Proxy	Controls access to an object
+Facade	Simplifies a complex subsystem
+
+Important interview difference:
+- Bridge is designed to separate two dimensions of variation.
+- Adapter is generally used to make existing incompatible classes work together.
+11. Interview questions
+Q1. What is Bridge Pattern?
+
+A structural design pattern that separates abstraction from implementation so both can evolve independently.
+
+Q2. Why do we use Bridge Pattern?
+
+To avoid class explosion and reduce tight coupling between two class hierarchies.
+
+Q3. What is the bridge between the two hierarchies?
+
+Composition: the abstraction holds a reference to the implementation.
+
+Q4. Does Bridge use inheritance?
+
+Yes. It uses inheritance within both hierarchies, but composition connects them.
+
+Q5. What is the main difference between Bridge and Adapter?
+
+Bridge separates abstraction and implementation during design. Adapter makes existing incompatible interfaces work together.
+
+Quick revision – Remember this
+- Bridge = Structural pattern.
+- Abstraction = Remote.
+- Implementation = Device.
+- Refined Abstraction = BasicRemote, AdvancedRemote.
+- Concrete Implementation = TV, Radio.
+- Connection = Composition.
+- Main purpose = Separate abstraction from implementation.
