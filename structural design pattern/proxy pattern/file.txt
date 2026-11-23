@@ -1,0 +1,231 @@
+1. What is Proxy Design Pattern?
+Proxy is a structural design pattern.
+
+It provides a substitute or placeholder object that controls access to another real object.
+
+In simple words:
+
+Proxy Pattern means putting an intermediate object between the client and the real object to control access to it.
+
+Think of a proxy as a middleman.
+2. Real-life example: Security guard
+Imagine you work in an office.
+1. Real Object): The actual place you want to access.
+How does it work?
+- You ask the security guard to enter.
+- The guard checks your ID card.
+- If you are authorized, the guard allows you to enter.
+- Otherwise, access is denied.
+Notice something important:
+
+You don't directly access the office. The security guard controls access.
+
+This is exactly how Proxy Pattern works.
+3. Why do we need Proxy Pattern?
+Suppose you are developing an application that displays large images.
+
+Loading every image immediately can consume a lot of memory and time.
+
+For example:
+Image image("large_image.jpg");
+image.display();
+
+
+The image loads immediately when the object is created.
+
+But what if the user never displays the image?
+
+We wasted resources.
+
+Proxy Pattern solves this using Lazy Initialization.
+
+Instead of loading the actual image immediately:
+1. Create a proxy object.
+2. Wait until the user requests the image.
+3. Proxy loads the actual image only when needed.
+4. Proxy forwards the request to the real object.
+This saves resources.
+4. Main components of Proxy Pattern
+There are three important components.
+4. Main components of Proxy Pattern
+There are three important components.
+1. Subject (Common Interface)
+Defines the common operations that both Proxy and Real Object implement.
+
+Example:
+class Image {
+public:
+    virtual void display() = 0;
+};
+
+
+2. Real Subject
+This is the actual object that performs the operation.
+
+Example:
+class RealImage : public Image {
+public:
+    void display() override {
+        cout << "Displaying image";
+    }
+};
+
+
+3. Proxy
+Proxy implements the same interface and controls access to the real object.
+
+Example:
+class ProxyImage : public Image {
+    RealImage* realImage;
+};
+
+
+It decides when the real image should be created and used.
+
+Understand the structure:
+              Client
+                 |
+                 v
+              Subject
+             (Interface)
+                 |
+          ----------------
+          |              |
+       Proxy         RealSubject
+          |
+          |
+     Controls access
+          |
+          v
+      RealSubject
+
+
+Important:
+- Client communicates with Proxy.
+- Proxy implements the same interface as Real Subject.
+- Proxy contains a reference to Real Subject.
+- Proxy controls access and forwards requests.
+6. Types of Proxy Pattern
+There are several common types.
+Type	Purpose
+Virtual Proxy	Delays creation of expensive objects
+Protection Proxy	Controls access using permissions
+Remote Proxy	Represents an object in another system
+Caching Proxy	Stores results to avoid repeated work
+Logging Proxy	Records operations and requests
+
+Example of each
+Virtual Proxy: Load a large image only when needed.
+
+Protection Proxy: Allow only authenticated users to access an account.
+
+Remote Proxy: Communicate with a remote server as if it were a local object.
+
+Caching Proxy: Return previously fetched data instead of making another API request.
+
+Logging Proxy: Record who accessed a service and when.
+7. How does Proxy Pattern work?
+Let's take the image example.
+Client
+  |
+  v
+ProxyImage
+  |
+  |-- Is image already loaded?
+  |
+  |-- No
+  |    |
+  |    v
+  |  Create RealImage
+  |    |
+  |    v
+  |  Load image
+  |
+  v
+Display image
+
+
+Execution:
+
+Step 1: Client creates a ProxyImage object.
+
+Step 2: The real image is not loaded yet.
+
+Step 3: Client calls display().
+
+Step 4: Proxy checks whether the real image exists.
+
+Step 5: If it doesn't exist, Proxy creates RealImage.
+
+Step 6: Proxy forwards the display() request to RealImage.
+8. Advantages
+1. Access control: Restrict access to sensitive objects.
+2. Performance: Load expensive objects only when needed.
+3. Caching: Avoid repeated operations.
+4. Security: Validate users before allowing access.
+5. Logging: Track requests without changing the real object.
+9. Disadvantages
+1. Adds another layer between client and real object.
+2. Can increase code complexity.
+3. May introduce additional execution overhead.
+4. Debugging can become harder because requests pass through multiple objects.
+10. Real-world applications
+Application	Proxy usage
+Image viewer	Load images when needed
+Banking application	Check user permissions
+Web application	Cache API responses
+Network communication	Represent remote services
+Database	Control access to database connections
+
+11. Proxy vs Decorator vs Adapter vs Facade
+These four patterns can look similar because they all involve objects working together.
+Pattern	Main purpose
+Proxy	Controls access to an object
+Decorator	Adds extra functionality
+Adapter	Converts an incompatible interface
+Facade	Simplifies access to a complex system
+Composite	Treats individual objects and groups uniformly
+
+Important interview difference:
+- Proxy controls access.
+- Decorator adds responsibilities.
+- Adapter changes the interface.
+- Facade simplifies the interface.
+12. Interview questions
+Q1. What is Proxy Pattern?
+
+A structural design pattern that provides a substitute object to control access to a real object.
+
+Q2. What is the difference between Proxy and Real Subject?
+
+Real Subject performs the actual operation, whereas Proxy controls access to it and forwards requests.
+
+Q3. What is Virtual Proxy?
+
+A proxy that delays the creation of an expensive object until it is required.
+
+Q4. What is Protection Proxy?
+
+A proxy that checks permissions before allowing access to an object.
+
+Q5. Does Proxy implement the same interface as Real Subject?
+
+Yes. This allows the client to interact with the proxy without changing its code.
+
+Q6. What is Lazy Initialization?
+
+Creating an object only when it is actually needed.
+
+Quick revision – Remember this
+- Proxy = Middleman.
+- Subject = Common interface.
+- Real Subject = Actual object.
+- Proxy = Controls access.
+- Main purpose = Control access to an object.
+- Common example = Security guard and lazy image loading.
+
+Remember this interview one-liner:
+
+Proxy Pattern provides a placeholder object that controls access to the actual object.
+
+Next, we can implement the complete Proxy Pattern in C++ using the Lazy Image Loading example, with detailed comments and a dry run.
