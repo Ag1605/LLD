@@ -1,0 +1,249 @@
+1. What is Flyweight Design Pattern?
+Flyweight is a structural design pattern.
+
+It helps reduce memory usage by sharing common data between multiple objects instead of creating separate copies.
+
+In simple words:
+
+Flyweight Pattern means sharing common objects to save memory when we need to create a large number of similar objects.
+2. Real-life example: Video Game
+Imagine you are developing a game like PUBG.
+
+Suppose your game has 10,000 trees.
+
+Each tree has some properties:
+- Tree type
+- Color
+- Texture
+- Position (X, Y)
+- Size
+Now imagine creating 10,000 separate objects, each storing the same tree texture, color and type.
+
+This wastes memory.
+
+But think carefully:
+
+Do all trees need separate texture data?
+
+No!
+
+Most trees can share the same texture and type information.
+
+Only their positions and perhaps sizes need to be different.
+
+That's where Flyweight Pattern helps.
+3. Why do we need Flyweight Pattern?
+Suppose we create 10,000 tree objects.
+
+Without Flyweight:
+Tree 1 → Texture + Color + Position
+Tree 2 → Texture + Color + Position
+Tree 3 → Texture + Color + Position
+...
+Tree 10000 → Texture + Color + Position
+
+
+Every object stores repeated information.
+
+With Flyweight:
+              Tree Type
+             (Shared Data)
+                  |
+       ----------------------
+       |         |          |
+    Tree 1     Tree 2     Tree 3
+       |         |          |
+    Position   Position   Position
+    (Unique)   (Unique)   (Unique)
+
+
+Now:
+- Common information is shared.
+- Unique information is stored separately.
+This reduces memory consumption.
+4. Two important concepts
+Flyweight Pattern divides object data into two categories.
+1. Intrinsic State (Shared Data)
+This is the information that remains the same across multiple objects.
+
+Example:
+- Tree texture
+- Tree color
+- Tree type
+This data is stored inside the Flyweight object and shared.
+2. Extrinsic State (Unique Data)
+This is the information that changes from one object to another.
+
+Example:
+- Tree position X
+- Tree position Y
+- Tree size
+This data is passed from outside whenever we use the Flyweight object.
+Remember the difference
+Intrinsic State
+Shared information
+
+Tree type, color, texture.
+
+Extrinsic State
+Unique information
+
+X position, Y position, size.
+
+
+5. Main components of Flyweight Pattern
+There are four important components.
+1. Flyweight
+Defines the common interface for sharing objects.
+
+Example:
+class Tree {
+public:
+    virtual void display(int x, int y) = 0;
+};
+
+
+2. Concrete Flyweight
+Stores the shared information.
+
+Example:
+class TreeType : public Tree {
+private:
+    string name;
+    string color;
+    string texture;
+};
+
+
+3. Flyweight Factory
+Creates and manages shared objects.
+
+Before creating a new object, it checks whether an object of that type already exists.
+
+If it exists, it returns the existing object.
+
+Otherwise, it creates a new one.
+4. Client
+Uses the shared Flyweight objects and supplies unique information.
+
+Example: Tree positions.
+
+             Client
+                |
+                v
+        Flyweight Factory
+                |
+        ------------------
+        |                |
+     Existing         Create
+     Object            New
+        |                |
+        ------------------
+                |
+                v
+        Concrete Flyweight
+                |
+        Shared Data
+        (Intrinsic State)
+
+Client also passes:
+Unique Data
+(Extrinsic State)
+
+
+
+7. How does Flyweight Pattern work?
+Let's take our tree example.
+
+Suppose we want to create 1,000 trees.
+
+We have three tree types:
+- Oak
+- Pine
+- Mango
+Execution:
+
+Step 1: Create a Flyweight Factory.
+
+Step 2: Request an Oak tree.
+
+Step 3: Factory checks whether Oak already exists.
+
+Step 4: If it doesn't exist, create it and store it.
+
+Step 5: Request another Oak tree.
+
+Step 6: Factory returns the already existing Oak object.
+
+Step 7: Pass different X and Y positions for each tree.
+
+Now multiple trees share one TreeType object.
+8. Advantages
+1. Memory optimization: Reduces duplicate object creation.
+2. Object sharing: Common information is shared.
+3. Performance: Useful when creating thousands of similar objects.
+4. Scalability: Helps applications manage large numbers of objects.
+9. Disadvantages
+1. Code becomes more complicated.
+2. Separating intrinsic and extrinsic states requires careful design.
+3. Managing shared objects can be difficult.
+4. Not useful when the application has only a few objects.
+10. Real-world applications
+Application	Flyweight usage
+Video games	Share tree, bullet and particle textures
+Text editors	Share character formatting or glyph data
+Web browsers	Share cached resources
+Maps	Share common road or building styles
+GUI applications	Share icons and graphical resources
+
+11. Flyweight vs Singleton vs Factory
+These patterns are often confused.
+Pattern	Main purpose
+Singleton	Ensure one instance of a class
+Factory	Manage object creation
+Flyweight	Share objects to save memory
+Object Pool	Reuse a collection of available objects
+
+Important:
+
+Flyweight does not mean there can only be one object.
+
+There can be many Flyweight objects, each representing a different shared type.
+
+For example, one Oak TreeType, one Pine TreeType and one Mango TreeType.
+12. Interview questions
+Q1. What is Flyweight Pattern?
+
+A structural design pattern that reduces memory usage by sharing common data among multiple objects.
+
+Q2. What is Intrinsic State?
+
+The shared information stored inside the Flyweight object.
+
+Q3. What is Extrinsic State?
+
+The unique information passed from outside when using the Flyweight object.
+
+Q4. What is Flyweight Factory?
+
+A factory that manages and reuses existing Flyweight objects instead of creating duplicates.
+
+Q5. Is Flyweight useful for large numbers of objects?
+
+Yes, especially when many objects share the same data.
+
+Q6. What is the main purpose of Flyweight?
+
+Memory optimization through object sharing.
+
+Quick revision – Remember this
+- Flyweight = Structural pattern.
+- Main purpose = Save memory.
+- Intrinsic State = Shared data.
+- Extrinsic State = Unique data.
+- Factory = Creates and reuses shared objects.
+- Example = Thousands of trees in a video game.
+
+Remember this interview one-liner:
+
+Flyweight Pattern reduces memory consumption by sharing common data among multiple objects instead of storing duplicate data.
