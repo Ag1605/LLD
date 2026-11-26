@@ -1,0 +1,199 @@
+1. What is Observer Design Pattern?
+Observer is a behavioral design pattern.
+
+It defines a one-to-many relationship between objects.
+
+When one object changes its state, all its dependent objects are automatically notified and updated.
+
+In simple words:
+
+Observer Pattern means one object changes, and all objects that are watching it receive an update automatically.
+2. Real-life example: YouTube notifications
+Imagine you subscribe to a YouTube channel.
+
+There are two types of objects:
+- YouTube Channel: The object being watched.
+- Subscribers: The objects watching the channel.
+Suppose the channel uploads a new video.
+
+What happens?
+1. The channel uploads a video.
+2. The channel notifies all its subscribers.
+3. Subscribers receive the notification.
+You don't need to manually check the channel every minute.
+
+The channel automatically informs you when something changes.
+
+This is exactly how Observer Pattern works.
+3. Why do we need Observer Pattern?
+Suppose you are building a weather application.
+
+You have one weather station and multiple displays:
+- Mobile display
+- Website display
+- Desktop display
+When the weather changes, all displays should update.
+
+Without Observer Pattern, the weather station might directly call every display:
+mobile.update();
+website.update();
+desktop.update();
+
+
+This creates tight coupling.
+
+If you add another display, you must modify the weather station code.
+
+Observer Pattern solves this by allowing displays to subscribe to the weather station.
+
+The weather station doesn't need to know the exact details of every display.
+4. Main components of Observer Pattern
+There are four important components.
+1. Subject
+The object whose state changes.
+
+It maintains a list of observers.
+
+It provides methods such as:
+- subscribe()
+- unsubscribe()
+- notifyObservers()
+Example: YouTube Channel.
+2. Observer
+Defines the common interface for all observers.
+
+Example:
+class Observer {
+public:
+    virtual void update(string message) = 0;
+};
+
+
+3. Concrete Subject
+Implements the Subject and manages its observers.
+
+Example: YouTubeChannel.
+4. Concrete Observer
+Implements the Observer interface.
+
+Example:
+- Subscriber A
+- Subscriber B
+- Subscriber C
+Each observer receives the notification.
+             Subject
+               |
+       -------------------
+       |        |        |
+   Observer1 Observer2 Observer3
+
+When Subject changes:
+       |
+       v
+ notifyObservers()
+       |
+       v
+ Observer1.update()
+ Observer2.update()
+ Observer3.update()
+ Observer3.update()
+
+
+The Subject maintains a collection of observers.
+
+Whenever its state changes, it notifies all registered observers.
+6. How does Observer Pattern work?
+Let's take the YouTube example.
+
+Suppose we have:
+YouTube Channel
+      |
+      |---- Subscriber A
+      |---- Subscriber B
+      |---- Subscriber C
+
+
+Execution:
+
+Step 1: Create a YouTube channel.
+
+Step 2: Create subscribers.
+
+Step 3: Subscribers subscribe to the channel.
+
+Step 4: Channel uploads a new video.
+
+Step 5: Channel calls notifyObservers().
+
+Step 6: Every subscriber receives the notification.
+
+If a subscriber unsubscribes, that subscriber will no longer receive notifications.
+7. Advantages
+1. Loose coupling: Subject doesn't need to know the concrete observer classes.
+2. Automatic updates: Observers receive updates when the subject changes.
+3. Easy extension: New observers can be added without modifying the subject.
+4. Dynamic subscription: Observers can subscribe and unsubscribe at runtime.
+5. Reusability: The same observer interface can be used in different applications.
+8. Disadvantages
+1. Too many observers can create performance overhead.
+2. Notification order may matter in some applications.
+3. Debugging can become difficult because updates happen indirectly.
+4. Incorrect subscription management can cause memory or lifecycle problems.
+9. Real-world applications
+Application	Subject	Observer
+YouTube	Channel	Subscribers
+Weather app	Weather station	Weather displays
+Stock market	Stock price	Investors
+GUI	Button	Event listeners
+E-commerce	Order status	Email/SMS notification services
+Chat application	New message	Connected users
+
+10. Observer vs Iterator vs Mediator
+Pattern	Main purpose
+Observer	Notify dependent objects about changes
+Iterator	Traverse collection elements
+Mediator	Centralize communication between objects
+Strategy	Change an algorithm at runtime
+State	Change behavior based on object state
+
+Important interview difference:
+- Observer: One subject notifies multiple observers.
+- Mediator: Multiple objects communicate through a central mediator.
+11. Interview questions
+Q1. What is Observer Pattern?
+
+A behavioral pattern that defines a one-to-many relationship between objects so that when one object changes state, its dependent objects are notified automatically.
+
+Q2. What is Subject?
+
+The object being observed. It maintains and notifies observers.
+
+Q3. What is Observer?
+
+An object that receives updates from the Subject.
+
+Q4. What is the purpose of notifyObservers()?
+
+It sends updates to all registered observers.
+
+Q5. Can an observer unsubscribe?
+
+Yes. It can remove itself from the subject's observer list.
+
+Q6. What is the main advantage?
+
+Loose coupling between the object that produces changes and the objects that react to those changes.
+
+Quick revision – Remember this
+- Observer = Behavioral pattern.
+- Subject = Object being watched.
+- Observer = Object receiving updates.
+- Relationship = One-to-many.
+- Main methods = subscribe(), unsubscribe(), notifyObservers(), update().
+- Example = YouTube channel and subscribers.
+
+Remember this interview one-liner:
+
+Observer Pattern establishes a one-to-many dependency so that when a Subject changes, all registered Observers are notified automatically.
+
+Next step: We can implement the complete Observer Pattern in C++ using the YouTube Channel example, with detailed comments, output and a dry run
